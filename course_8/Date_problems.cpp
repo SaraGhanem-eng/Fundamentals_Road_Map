@@ -1,3 +1,5 @@
+#pragma warning(disable : 4996)
+
 #include <iostream>
 #include <string>
 #include <cmath>
@@ -85,7 +87,7 @@ int NumberOfSecondsInMonth (short Year , short Month )
     return NumberOfMinutesInMonth(Year , Month ) * 60 ;
 }
 
-short FindDayOrder (short Year , short Month , short Day )
+short FindDayOrderInWeek (short Year , short Month , short Day )
 {
     short a , y , m , d ;
 
@@ -115,7 +117,7 @@ string GetMonthName (short MonthNumber)
 
 void PrintMonthCalindar (short Year , short Month)
 {
-    short firstday = FindDayOrder(Year , Month , 1 ) ;
+    short firstday = FindDayOrderInWeek(Year , Month , 1 ) ;
     short numberofdays = NumberOfDaysInMonth(Year , Month) ;
     
     printf("\n_______________ [ %s ] _____________\n" , GetMonthName(Month).c_str() );
@@ -262,7 +264,7 @@ bool IsDate1LessThanDate2 (sDate date1 , sDate date2 )
         }
         else 
         {
-            if (date1.Day < date2.Month)
+            if (date1.Day < date2.Day)
             {
                 return true ;
             }
@@ -280,19 +282,108 @@ bool IsDate1LessThanDate2 (sDate date1 , sDate date2 )
 
 }
 
+bool IsDate1EqalsDate2 (sDate date1 , sDate date2 )
+{
+    return ((date1.Year == date2.Year) && (date1.Month==date2.Month) && (date1.Day == date2.Day )) ? true : false ;
+}
+
+bool IsLastMonthInYear ( sDate date )
+{
+    return ( date.Month == 12 ) ;
+}
+
+bool IsLastDayInMonth ( sDate date )
+{
+    return (NumberOfDaysInMonth(date.Year , date.Month ) == date.Day ) ;
+}
+
+void PrintFullDate (sDate date )
+{
+    cout << endl ;
+    cout << date.Day << " / " << date.Month << " / " << date.Year << endl;
+
+}
+
+sDate IncreaseDateByOneDate (sDate date )
+{
+    if (IsLastMonthInYear(date) && IsLastDayInMonth(date))
+    {
+        date.Year ++ ;
+        date.Month = 1 ;
+        date.Day = 1;
+       
+    }
+    else if (IsLastDayInMonth(date) && (!IsLastMonthInYear(date)) )
+    {
+        date.Month ++ ;
+        date.Day = 1 ;
+        
+    }
+    else 
+    {
+        date.Day ++ ;
+    }
+
+    return date ;
+}
+
+sDate GetSystemDate ()
+{
+    sDate date ;
+
+    time_t t = time(0) ;
+    tm* now = localtime(&t) ;
+
+    date.Year = now->tm_year + 1900 ;
+    date.Month = now->tm_mon + 1 ;
+    date .Day = now->tm_mday ;
+
+    return date ;
+}
+
+long long GetDiffrenceInDays (sDate date1 ,sDate date2 , bool IncludeLastDay = false )
+{
+  long long days = 0 ;
+
+  short flag = 1 ;
+  if ( !IsDate1LessThanDate2(date1 , date2 ) )
+  {
+    sDate temp ;
+
+    temp = date1 ;
+    date1 = date2 ;
+    date2 = temp ;
+    flag = -1 ;
+     
+  }
+
+
+  while (IsDate1LessThanDate2(date1 , date2 ))
+  {
+    days++ ;
+    date1 = IncreaseDateByOneDate(date1);
+  }
+
+
+  return IncludeLastDay ? (flag * ++days) : (flag * days);
+
+}
+
+
+
 int main ()
 {
-    sDate Date1 , Date2 ;
-    Date1 = ReadFullDate();
     cout << endl;
-    Date2 = ReadFullDate() ;
+    sDate Date , Date2 ;
+    
+    Date = ReadFullDate();
+    cout << endl;
+    Date2 = ReadFullDate();
+    cout << "Difference is : " << GetDiffrenceInDays(Date , Date2 ) << " day(s) " << endl;
+    cout << "Difference (including End day ) is : " << GetDiffrenceInDays(Date , Date2 , true ) << " day(s)" << endl;
+ 
 
-    if( IsDate1LessThanDate2(Date1 , Date2 ) )
-    cout << "\nYes , Date1 is less than Date2 " << endl;
-    else 
-    cout << "\nNo , Date1 is Not less than Date2 " << endl;
-
-
+   
 
 return 0;
 

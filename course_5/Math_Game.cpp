@@ -141,6 +141,8 @@ char OperationsToChar (enOperationType Operations )
         case enOperationType::dev:
             return '/';
 
+        default :return '?';    
+
     }
 
 }
@@ -183,6 +185,7 @@ stQuestionInfo GenerateAQuestion (enLevels level , enOperationType op )
         return Question ;
 
     }
+    return Question ;
 }
 void GenerateQuizQuestionList  (stQuizInfo &Quiz  )
 {

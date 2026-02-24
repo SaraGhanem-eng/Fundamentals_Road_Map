@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <ctime>
 using namespace std  ;
 
 enum enWinner {player = 1 , computer =2 , draw =3 };
@@ -107,6 +108,7 @@ enWinner WhoWonTheRound (stRoundInfo RoundInfo)
             break ;
 
     }
+  return enWinner::player ;
 }
 enWinner WhoWonTheGame (short PlayerWonTimes , short ComputerWonTimes)
 {
@@ -148,7 +150,7 @@ void PrintHeaderGameOver ()
 {
 cout <<endl<<endl<<endl;
 cout << Tabs(5) << "________________________________________________________________" <<  endl;
-cout << Tabs(5) << Tabs(5) << " + + + + " <<" Game Over " << " + + + + " << Tabs(5) <<  endl;
+cout << Tabs(7) <<  " + + + + " <<" Game Over " << " + + + + " << Tabs(5) <<  endl;
 cout << Tabs(5) << "________________________________________________________________"<< endl<<endl;
 cout << Tabs(5) << "______________________ [ Game Results ] ________________________" << endl << endl;
 
@@ -194,7 +196,7 @@ stGameInfo PlayGame (short Rounds )
         if (RoundInfo.Winner == enWinner::draw)
                 DrawTime ++ ;
         else if
-           (RoundInfo.Winner > enWinner::player)
+           (RoundInfo.Winner == enWinner::player)
                 PlayerWinTimes ++ ;
         else
                 ComputerWinTimes ++ ;
