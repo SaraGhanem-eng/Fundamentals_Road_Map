@@ -63,7 +63,7 @@ sClient ReadAndStorNewClientData ()
 return client ;
 
 }
-string ConvertDataToLine (sClient client , string delimiter = "#//#" )
+string ConvertClientDataToLine (sClient client , string delimiter = "#//#" )
 {
   string ClientLine = "" ;
 
@@ -76,7 +76,7 @@ string ConvertDataToLine (sClient client , string delimiter = "#//#" )
    return ClientLine ;
 
 }
-sClient ConvertLineToStruct (string line , string delimiter = "#//#")
+sClient ConvertClientLineToStruct (string line , string delimiter = "#//#")
 {
     sClient client ;
     vector <string> vClientData ;
@@ -101,7 +101,7 @@ void PrintClientCard (sClient client )
     cout << "Account Balance  : " << client.AccountBalance << endl;
 
 }
-vector <sClient> LoadClientsDataFromFile (string FileName )
+vector <sClient> LoadClientsDataFromFileToVector (string FileName )
 {
     fstream MyFile ;
     MyFile.open(FileName , ios :: in );
@@ -114,7 +114,7 @@ vector <sClient> LoadClientsDataFromFile (string FileName )
         sClient clien ;
         while (getline (MyFile , line ))
         {
-            clien = ConvertLineToStruct(line);
+            clien = ConvertClientLineToStruct(line);
             clients.push_back(clien) ;
         }
         MyFile.close();
@@ -134,7 +134,7 @@ vector <sClient> LoadClientDataFromFile(string FileName)
         string line ;
         while (getline(MyFile , line ))
         {
-            clients.push_back( ConvertLineToStruct(line));
+            clients.push_back( ConvertClientLineToStruct(line));
         }
 
         MyFile.close() ;
@@ -177,7 +177,7 @@ void AddOneClient ()
 
     sClient client ;
     client = ReadAndStorNewClientData() ;
-    AddClientToFile(  ClientFileName , ConvertDataToLine(client));
+    AddClientToFile(  ClientFileName , ConvertClientDataToLine(client));
 
 }
 void AddingNewClientScreenHeader ()
@@ -240,7 +240,7 @@ void LoadClientDataToFile (string FileName , vector <sClient> clients )
         {
             if (c.MarkForDelete != true )
             {
-                MyFile << ConvertDataToLine(c) << endl;
+                MyFile << ConvertClientDataToLine(c) << endl;
             }
 
         }
@@ -356,7 +356,7 @@ vector<sClient> UpdateClientsDataAfterEdit (string accountNum, sClient &client ,
 
     return vClients ;
 }
-void UpdateUserInformationByAccountNumber  (string accountNum , vector <sClient> &clients )
+void UpdateClientInformationByAccountNumber  (string accountNum , vector <sClient> &clients )
 {
     sClient client ;
 

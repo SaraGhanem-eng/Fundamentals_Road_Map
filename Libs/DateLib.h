@@ -1,10 +1,14 @@
-#pragma warning(disable : 4996)
+#pragma once
 
 #include <iostream>
 #include <string>
-#include <cmath>
-#include<iomanip>
+#include <vector>
+
 using namespace std;
+
+class DateProblems 
+{
+public:
 
 struct stDate
 {
@@ -13,13 +17,13 @@ struct stDate
   short Year = 0 ;
 };
 
-bool IsLeapYear (short YearNumber )
+static bool IsLeapYear (short YearNumber )
 {
 return ((YearNumber % 400 == 0 )||( YearNumber % 4 == 0 && YearNumber %100 != 0) );
 
 }
 
-short ReadYear ()
+static short ReadYear ()
 {
     short Year ;
     cout << " Please enter Year  ? " ;
@@ -27,7 +31,7 @@ short ReadYear ()
     return Year ;
 }
 
-short ReadMonth ()
+static short ReadMonth ()
 {
     short Month ;
     cout << " Please enter month ? " ;
@@ -35,7 +39,7 @@ short ReadMonth ()
     return Month ;
 }
 
-short ReadDay ()
+static short ReadDay ()
 {
     short DayNumber ;
     cout << " Please enter day ? ";
@@ -43,27 +47,27 @@ short ReadDay ()
     return DayNumber;
 }
 
-short NumberOfDyasInYear (short Year)
+static short NumberOfDyasInYear (short Year)
 {
  return IsLeapYear(Year) ? 366 : 365 ;
 }
 
-short NumberOfHoursInYear (short Year )
+static short NumberOfHoursInYear (short Year )
 {
     return NumberOfDyasInYear(Year) * 24 ;
 }
 
-int NumberOfMinutesInYear (short Year )
+static int NumberOfMinutesInYear (short Year )
 {
     return NumberOfHoursInYear(Year) * 60 ;
 }
 
-int NumberOfSecondsInYear (short Year )
+static int NumberOfSecondsInYear (short Year )
 {
     return NumberOfMinutesInYear(Year) * 60 ;
 }
 
-short NumberOfDaysInMonth (short Year , short Month)
+static short NumberOfDaysInMonth (short Year , short Month)
 {
    if (Month < 1 || Month > 12 )
    return 0 ; 
@@ -72,7 +76,7 @@ short NumberOfDaysInMonth (short Year , short Month)
    return  (Month == 2) ? (IsLeapYear(Year) ? 29 : 28 ) : NumberOfDays[Month-1] ;
 }
 
-short NumberOfDaysInMonth (stDate date )
+static short NumberOfDaysInMonth (stDate date )
 {
        if (date.Month < 1 ||date.Month > 12 )
    return 0 ; 
@@ -81,22 +85,22 @@ short NumberOfDaysInMonth (stDate date )
    return  (date.Month == 2) ? (IsLeapYear(date.Year) ? 29 : 28 ) : NumberOfDays[date.Month -1] ;
 }
 
-short NumberOfHoursInMonth (short Year , short Month )
+static short NumberOfHoursInMonth (short Year , short Month )
 {
     return NumberOfDaysInMonth(Year , Month ) * 24 ;
 }
 
-int NumberOfMinutesInMonth (short Year , short Month )
+static int NumberOfMinutesInMonth (short Year , short Month )
 {
  return NumberOfHoursInMonth(Year , Month ) * 60 ;
 }
 
-int NumberOfSecondsInMonth (short Year , short Month )
+static int NumberOfSecondsInMonth (short Year , short Month )
 {
     return NumberOfMinutesInMonth(Year , Month ) * 60 ;
 }
 
-short FindDayOrderInWeek (stDate date )
+static short FindDayOrderInWeek (stDate date )
 {
     short a , y , m , d ;
 
@@ -110,7 +114,7 @@ short FindDayOrderInWeek (stDate date )
      
 }
 
-short FindDayOrderInWeek (short Year , short Month , short Day)
+static short FindDayOrderInWeek (short Year , short Month , short Day)
 {
         short a , y , m , d ;
 
@@ -122,14 +126,14 @@ short FindDayOrderInWeek (short Year , short Month , short Day)
     return d ;
 }
 
-string GetDaykName (short DayNumber)
+static string GetDaykName (short DayNumber)
 {
  string WeekDays [] = {   "sunday" , "Monday" , "Tuesday" , "Wednesday" , "Thursday" , "Friday" , "satuday" } ;
  return WeekDays[DayNumber] ;
 
 }
 
-string GetMonthName (short MonthNumber)
+static string GetMonthName (short MonthNumber)
 {
     string MonthsName [12] = {"Jan" , "Feb" , "Mar" , "Apr" , "May" , "Jun" , "Jul" ,"Aug" ,
     "Sep" , "Oct" , "Nov" , "Dec" };
@@ -137,7 +141,7 @@ string GetMonthName (short MonthNumber)
     return MonthsName[MonthNumber-1];
 }
 
-void PrintMonthCalindar (short Year , short Month  )
+static void PrintMonthCalindar (short Year , short Month  )
 {
     short firstday = FindDayOrderInWeek(  Year , Month  , 1 ) ;
     short numberofdays = NumberOfDaysInMonth(Year , Month) ;
@@ -169,7 +173,7 @@ void PrintMonthCalindar (short Year , short Month  )
     cout << "\n_____________________________________\n\n"<< endl;
 }
 
-void PrintYearCalindar (short Year )
+static void PrintYearCalindar (short Year )
 {
     printf("\n_____________________________________\n\n");
     printf("           CALENDAR _ [%d]           \n",Year );
@@ -181,7 +185,7 @@ void PrintYearCalindar (short Year )
     }
 }
 
-short NumberOfPassedDayFromYear (short Year , short Month , short Day)
+static short NumberOfPassedDayFromYear (short Year , short Month , short Day)
 {
     short NumberOfDays = 0 ;
     for (int i = 1 ; i < Month ; i ++ )
@@ -194,7 +198,7 @@ short NumberOfPassedDayFromYear (short Year , short Month , short Day)
     return NumberOfDays ;
 }
 
-stDate ReadFullDate ()
+static stDate ReadFullDate ()
 {
   stDate date ;
   date.Day = ReadDay() ;
@@ -204,7 +208,7 @@ stDate ReadFullDate ()
   return date ;
 }
 
-stDate DateAccordingToNumberOfPassedDays (short PassedDays  , short Year )
+static stDate DateAccordingToNumberOfPassedDays (short PassedDays  , short Year )
 { 
     stDate Date ;
     Date.Year = Year;
@@ -231,7 +235,7 @@ stDate DateAccordingToNumberOfPassedDays (short PassedDays  , short Year )
    return Date ;
 }
 
-stDate DateAfterAddingDays (stDate Date , short daysAdded)
+static stDate DateAfterAddingDays (stDate Date , short daysAdded)
 {
     short RemainingDays = daysAdded + NumberOfPassedDayFromYear(Date.Year , Date.Month , Date.Day) ;
     Date.Month = 1 ;
@@ -262,7 +266,7 @@ stDate DateAfterAddingDays (stDate Date , short daysAdded)
     return Date ;
 }
 
-bool IsDate1BeforDate2 (stDate date1 , stDate date2 )
+static bool IsDate1BeforDate2 (stDate date1 , stDate date2 )
 {
   
 
@@ -304,29 +308,29 @@ bool IsDate1BeforDate2 (stDate date1 , stDate date2 )
 
 }
 
-bool IsDate1EqalsDate2 (stDate date1 , stDate date2 )
+static bool IsDate1EqalsDate2 (stDate date1 , stDate date2 )
 {
     return ((date1.Year == date2.Year) && (date1.Month==date2.Month) && (date1.Day == date2.Day )) ? true : false ;
 }
 
-bool IsLastMonthInYear ( stDate date )
+static bool IsLastMonthInYear ( stDate date )
 {
     return ( date.Month == 12 ) ;
 }
 
-bool IsLastDayInMonth ( stDate date )
+static bool IsLastDayInMonth ( stDate date )
 {
     return (NumberOfDaysInMonth(date.Year , date.Month ) == date.Day ) ;
 }
 
-void PrintFullDate (stDate date )
+static void PrintFullDate (stDate date )
 {
     cout << endl ;
     cout << date.Day << " / " << date.Month << " / " << date.Year << endl;
 
 }
 
-stDate IncreaseDateByOneDay (stDate date )
+static stDate IncreaseDateByOneDay (stDate date )
 {
     if (IsLastMonthInYear(date) && IsLastDayInMonth(date))
     {
@@ -349,7 +353,7 @@ stDate IncreaseDateByOneDay (stDate date )
     return date ;
 }
 
-stDate GetSystemDate ()
+static stDate GetSystemDate ()
 {
     stDate date ;
 
@@ -363,7 +367,7 @@ stDate GetSystemDate ()
     return date ;
 }
 
-long long GetDiffrenceInDays (stDate date1 ,stDate date2 , bool IncludeLastDay = false )
+static long long GetDiffrenceInDays (stDate date1 ,stDate date2 , bool IncludeLastDay = false )
 {
   long long days = 0 ;
 
@@ -391,7 +395,7 @@ long long GetDiffrenceInDays (stDate date1 ,stDate date2 , bool IncludeLastDay =
 
 }
 
-stDate IncreseDateByXDays (stDate date , int NumberOfDays )
+static stDate IncreseDateByXDays (stDate date , int NumberOfDays )
 {
     for (int i = 0 ; i < NumberOfDays ; i++ )
     {
@@ -400,7 +404,7 @@ stDate IncreseDateByXDays (stDate date , int NumberOfDays )
     return date ;
 }
 
-stDate IncreaseDateByOneWeek (stDate date )
+static stDate IncreaseDateByOneWeek (stDate date )
 {
     for (int i = 0 ; i < 7 ; i ++ )
     {
@@ -409,7 +413,7 @@ stDate IncreaseDateByOneWeek (stDate date )
     return date ;
 }
 
-stDate IncreseDateByXWeeks (stDate date , int NumberOfWeeks )
+static stDate IncreseDateByXWeeks (stDate date , int NumberOfWeeks )
 {
     for (int i = 0 ; i < NumberOfWeeks ; i++ )
     {
@@ -418,7 +422,7 @@ stDate IncreseDateByXWeeks (stDate date , int NumberOfWeeks )
     return date ;
 }
 
-stDate IncreaseDateByOneMonth (stDate date )
+static stDate IncreaseDateByOneMonth (stDate date )
 {
  if (date.Month == 12 )
   { 
@@ -439,7 +443,7 @@ stDate IncreaseDateByOneMonth (stDate date )
  
 }
 
-stDate IncreaseDateByXMonths (stDate date , int NumberOfMonths )
+static stDate IncreaseDateByXMonths (stDate date , int NumberOfMonths )
 {
     for (int i = 0 ; i < NumberOfMonths ; i++ )
     {
@@ -448,13 +452,13 @@ stDate IncreaseDateByXMonths (stDate date , int NumberOfMonths )
     return date ;
 }
 
-stDate IncreaseDateByOneYear (stDate date )
+static stDate IncreaseDateByOneYear (stDate date )
 {
     date.Year++ ;
     return date ;
 }
 
-stDate IncreaseDateByYears (stDate date , int NumberOfYears )
+static stDate IncreaseDateByYears (stDate date , int NumberOfYears )
 {
     for (int i = 0 ; i < NumberOfYears ; i++ )
     {
@@ -463,19 +467,19 @@ stDate IncreaseDateByYears (stDate date , int NumberOfYears )
     return date ;
 }
 
-stDate IncreaseDateByYearsFaster (stDate date , int NumberOfYears )
+static stDate IncreaseDateByYearsFaster (stDate date , int NumberOfYears )
 {
     date.Year += NumberOfYears ;
     return date ;
 }
 
-stDate IncreaseDateByOneDecade (stDate date )
+static stDate IncreaseDateByOneDecade (stDate date )
 {
     date.Year += 10 ;
     return date ;
 }
 
-stDate IncreseDateByXDecades (stDate date , int NumOfDecades )
+static stDate IncreseDateByXDecades (stDate date , int NumOfDecades )
 {
   for (int i = 0 ; i < NumOfDecades ; i ++)
   {
@@ -484,26 +488,26 @@ stDate IncreseDateByXDecades (stDate date , int NumOfDecades )
   return date ;
 }
 
-stDate IncreaseDateByXDecadesFaster (stDate date , int NumOfDecades )
+static stDate IncreaseDateByXDecadesFaster (stDate date , int NumOfDecades )
 {
 
     date.Year += (10 * NumOfDecades ) ;
     return date ;
 }
 
-stDate IncreaseDateByOneCentury (stDate date)
+static stDate IncreaseDateByOneCentury (stDate date)
 {
     date.Year += 100 ;
     return date ;
 }
 
-stDate IncreaseDateByOneMillennium (stDate date )
+static stDate IncreaseDateByOneMillennium (stDate date )
 {
     date.Year += 1000 ;
     return date ;
 }
 
-stDate DecreaseDateByOneDay (stDate date )
+static stDate DecreaseDateByOneDay (stDate date )
 {
     if (date.Day == 1 && date.Month == 1 )
     {
@@ -527,7 +531,7 @@ stDate DecreaseDateByOneDay (stDate date )
     return date ;
 }
 
-stDate DecreaseDateByXDays (stDate date , int NumberOfDays )
+static stDate DecreaseDateByXDays (stDate date , int NumberOfDays )
 {
     for (int i = 0 ; i < NumberOfDays ; i++ )
     {
@@ -536,7 +540,7 @@ stDate DecreaseDateByXDays (stDate date , int NumberOfDays )
     return date ;
 }
 
-stDate DecreaseDateByOneWeek (stDate date )
+static stDate DecreaseDateByOneWeek (stDate date )
 {
     for (int i = 0 ; i < 7 ; i++ )
     {
@@ -545,7 +549,7 @@ stDate DecreaseDateByOneWeek (stDate date )
     return date ;
 }
 
-stDate DecreaseDateByXWeeks (stDate date , short NumOfWeeks )
+static stDate DecreaseDateByXWeeks (stDate date , short NumOfWeeks )
 {
     for (int i = 0 ; i < NumOfWeeks ; i++ )
     {
@@ -554,7 +558,7 @@ stDate DecreaseDateByXWeeks (stDate date , short NumOfWeeks )
     return date ;
 }
 
-stDate DecreaseDateByOneMonth (stDate date )
+static stDate DecreaseDateByOneMonth (stDate date )
 {
     if (date.Month == 1 )
     {
@@ -573,7 +577,7 @@ stDate DecreaseDateByOneMonth (stDate date )
     return date ;
 }
 
-stDate DecreaseDateByXMonths (stDate date , short NumOfMonths )
+static stDate DecreaseDateByXMonths (stDate date , short NumOfMonths )
 {
     for (int i = 0 ; i < NumOfMonths ; i ++ )
     {
@@ -582,25 +586,25 @@ stDate DecreaseDateByXMonths (stDate date , short NumOfMonths )
     return date ;
 }
 
-stDate DecreaseDateByOneYear (stDate date )
+static stDate DecreaseDateByOneYear (stDate date )
 {
     date.Year -- ;
     return date ;
 }
 
-stDate DecreaseDateByXYearsFaster (stDate date , short NumOfYears )
+static stDate DecreaseDateByXYearsFaster (stDate date , short NumOfYears )
 {
     date.Year -= NumOfYears ;
     return date ;
 }
 
-stDate DecreaseDateByOneDecade (stDate date )
+static stDate DecreaseDateByOneDecade (stDate date )
 {
     date.Year -= 10 ;
     return date ;
 }
 
-stDate DecreaseDateByXDecades (stDate date , int NumOfDecades )
+static stDate DecreaseDateByXDecades (stDate date , int NumOfDecades )
 {
   for (int i = 0 ; i < NumOfDecades ; i ++)
   {
@@ -609,62 +613,62 @@ stDate DecreaseDateByXDecades (stDate date , int NumOfDecades )
   return date ;
 }
 
-stDate DecreaseDateByXDecadesFaster (stDate date , int NumOfDecades )
+static stDate DecreaseDateByXDecadesFaster (stDate date , int NumOfDecades )
 {
 
     date.Year -= (10 * NumOfDecades ) ;
     return date ;
 }
 
-stDate DecreaseDateByOneCentury (stDate date)
+static stDate DecreaseDateByOneCentury (stDate date)
 {
     date.Year -= 100 ;
     return date ;
 }
 
-stDate DecreaseDateByOneMillennium (stDate date )
+static stDate DecreaseDateByOneMillennium (stDate date )
 {
     date.Year -= 1000 ;
     return date ;
 }
 
-bool IsEndOfWeek (stDate date )
+static bool IsEndOfWeek (stDate date )
 {
     short DayOrder = FindDayOrderInWeek(date);
     return ( DayOrder == 6);
 }
 
-bool IsWeekEnd (stDate date )
+static bool IsWeekEnd (stDate date )
 {
     short DayOrder = FindDayOrderInWeek(date);
     return (DayOrder == 5 || DayOrder ==6 );
 }
 
-bool IsBusinessDay (stDate date )
+static bool IsBusinessDay (stDate date )
 {
     return (!IsWeekEnd(date));
 }
 
-short DaysUntillEndOfWeek (stDate date )
+static short DaysUntillEndOfWeek (stDate date )
 {
     short DayOrder = FindDayOrderInWeek(date) ;
     return (6 - DayOrder) ;
 }
 
-short DaysUntillEndOfMonth (stDate date )
+static short DaysUntillEndOfMonth (stDate date )
 {
     short lastDayInMonth = NumberOfDaysInMonth(date) ;
     return lastDayInMonth - date.Day ;
 }
 
-short DaysUntillEndOfYear (stDate date )
+static short DaysUntillEndOfYear (stDate date )
 {
     short NumOfDyasInYear = NumberOfDyasInYear (date.Year);
     short NumOfPassedDays = NumberOfPassedDayFromYear(date.Year , date.Month , date.Day ) ;
     return NumOfDyasInYear - NumOfPassedDays ;
 }
 
-short ActualVacationDate (stDate DateFrom , stDate DateTo )
+static short ActualVacationDate (stDate DateFrom , stDate DateTo )
 {
     short VacationDays = 0 ;
 
@@ -679,7 +683,7 @@ short ActualVacationDate (stDate DateFrom , stDate DateTo )
    return VacationDays ;
 }
 
-stDate VacationReturnDate (stDate DateFrom , short vacationDays)
+static stDate VacationReturnDate (stDate DateFrom , short vacationDays)
 {
     stDate DateTo = DateFrom;
 
@@ -705,14 +709,14 @@ stDate VacationReturnDate (stDate DateFrom , short vacationDays)
     return DateTo ;
 }
 
-bool IsDate1AfterDate2 (stDate date1 , stDate date2 )
+static bool IsDate1AfterDate2 (stDate date1 , stDate date2 )
 {
     return  (! IsDate1BeforDate2(date1 , date2 ) && !IsDate1EqalsDate2(date1 , date2 ));
 }
 
 enum enDateComparison  { enDate1BeforDate2 = -1 , enDate1EqualDate2 = 0 , enDate1AfterDate2 = 1 };
 
-enDateComparison CompareDates(stDate date1 , stDate date2 )
+static enDateComparison CompareDates(stDate date1 , stDate date2 )
 {
     if (IsDate1EqalsDate2(date1 , date2 ))
     return enDateComparison::enDate1EqualDate2 ;
@@ -730,7 +734,7 @@ stDate StartDate ;
 stDate EndDate ;
 };
 
-stDatePeriod ReadPeriod()
+static stDatePeriod ReadPeriod()
 {
 stDatePeriod Period;
 cout << "\nEnter Start Date:\n";
@@ -740,7 +744,7 @@ Period.EndDate = ReadFullDate();
 return Period;
 }
 
-bool IsOverlapDate (stDatePeriod Period1 , stDatePeriod Period2 )
+static bool IsOverlapDate (stDatePeriod Period1 , stDatePeriod Period2 )
 {
   //return  !(IsDate1BeforDate2(Period1.EndDate , Period2.StartDate ) || IsDate1BeforDate2(Period2.EndDate , Period1.StartDate )) ;
   
@@ -748,7 +752,7 @@ bool IsOverlapDate (stDatePeriod Period1 , stDatePeriod Period2 )
          || CompareDates (Period2.StartDate , Period1.EndDate) == enDateComparison::enDate1AfterDate2 );
 }
 
-short CalculatePeriodInDays (stDatePeriod Period , bool EndDate = false )
+static short CalculatePeriodInDays (stDatePeriod Period , bool EndDate = false )
 { /*
 
    // #ANOTHER SOLUTION#
@@ -768,7 +772,7 @@ short CalculatePeriodInDays (stDatePeriod Period , bool EndDate = false )
     return GetDiffrenceInDays(Period.StartDate , Period.EndDate , EndDate ) ;
 }
 
-bool IsDateInPeriod (stDatePeriod Period , stDate day )
+static bool IsDateInPeriod (stDatePeriod Period , stDate day )
 {
 /*
     //#ANOTHER SOLUTION#
@@ -789,7 +793,7 @@ bool IsDateInPeriod (stDatePeriod Period , stDate day )
 return (!(IsDate1BeforDate2(day , Period.StartDate)) && !(IsDate1AfterDate2(day , Period.EndDate )));
 }
 
-short NumberOfDaysOverlap (stDatePeriod Period1 , stDatePeriod Period2 , bool EndDay = false )
+static short NumberOfDaysOverlap (stDatePeriod Period1 , stDatePeriod Period2 , bool EndDay = false )
 {
   if (IsOverlapDate(Period1 , Period2 ))
   {
@@ -815,7 +819,7 @@ short NumberOfDaysOverlap (stDatePeriod Period1 , stDatePeriod Period2 , bool En
 
 }
 
-bool ValidateDate (stDate date )
+static bool ValidateDate (stDate date )
 {
 
 
@@ -834,7 +838,7 @@ bool ValidateDate (stDate date )
 
 }
 
-vector <string> SplitString(string s , string delim )
+static vector <string> SplitString(string s , string delim )
 {
     vector <string> vstring ;
     string word ;
@@ -857,7 +861,7 @@ if (s != "")
     return vstring ;
 }
 
-stDate StringToDate (string date , string delim = "/")
+static stDate StringToDate (string date , string delim = "/")
 {
     stDate Date ;
     vector<string> vDate = SplitString(date , delim );
@@ -869,14 +873,14 @@ stDate StringToDate (string date , string delim = "/")
     return Date ;
 }
 
-string DateToString (stDate date)
+static string DateToString (stDate date)
 {
 
     return  to_string(date.Day) + " / " + to_string(date.Month) + " / " + to_string(date.Year) ;
 
 }
 
-string ReadStringDate ()
+static string ReadStringDate ()
 {
     string date ; 
     cout << "\nPlease enter date " ;
@@ -884,7 +888,7 @@ string ReadStringDate ()
     return date ;
 }
 
-string ReplaceWordInStringUsingBuiltInFunction ( string s , string StringToReplace , string ReplacedTo )
+static string ReplaceWordInStringUsingBuiltInFunction ( string s , string StringToReplace , string ReplacedTo )
 {
       int pos = s.find(StringToReplace);
       while (pos != string::npos)
@@ -895,7 +899,7 @@ string ReplaceWordInStringUsingBuiltInFunction ( string s , string StringToRepla
     return s ;
 }
 
-string DateFormat (stDate date , string Format = "dd / mm / yyyy")
+static string DateFormat (stDate date , string Format = "dd / mm / yyyy")
 {
     string FormatDay ;
     
@@ -906,23 +910,5 @@ string DateFormat (stDate date , string Format = "dd / mm / yyyy")
     return FormatDay ;
 }
 
-int main ()
-{
-stDate Date ;
 
-string dateString = ReadStringDate();
-
-Date = StringToDate(dateString);
-
-cout << DateFormat(Date ) << endl;
-cout << DateFormat(Date , "dd - mm - yyyy") << endl;
-cout << DateFormat(Date , "mm - dd - yyyy") << endl;
-
-
-
-
-
-
-return 0;
-
-}
+};
