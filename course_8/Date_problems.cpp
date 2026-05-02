@@ -74,11 +74,11 @@ short NumberOfDaysInMonth (short Year , short Month)
 
 short NumberOfDaysInMonth (stDate date )
 {
-       if (date.Month < 1 ||date.Month > 12 )
+       if (date.Month() < 1 ||date.Month() > 12 )
    return 0 ; 
    
    short NumberOfDays [12] = {31 , 28 , 31 , 30 , 31 , 30 , 31 , 31 , 30 , 31 , 30 , 31};
-   return  (date.Month == 2) ? (IsLeapYear(date.Year) ? 29 : 28 ) : NumberOfDays[date.Month -1] ;
+   return  (date.Month() == 2) ? (IsLeapYear(date.Year()) ? 29 : 28 ) : NumberOfDays[date.Month() -1] ;
 }
 
 short NumberOfHoursInMonth (short Year , short Month )
@@ -100,10 +100,10 @@ short FindDayOrderInWeek (stDate date )
 {
     short a , y , m , d ;
 
-    a = (14 - date.Month ) / 12 ;
-    y = date.Year - a ;
-    m = date.Month + (12 * a ) - 2 ;
-    d = (date.Day + y + (y/4) - (y/100) + (y /400) + ((31 * m ) / 12 )) % 7 ;
+    a = (14 - date.Month() ) / 12 ;
+    y = date.Year() - a ;
+    m = date.Month() + (12 * a ) - 2 ;
+    d = (date.Day() + y + (y/4) - (y/100) + (y /400) + ((31 * m ) / 12 )) % 7 ;
 
     return d ;
    
@@ -197,9 +197,9 @@ short NumberOfPassedDayFromYear (short Year , short Month , short Day)
 stDate ReadFullDate ()
 {
   stDate date ;
-  date.Day = ReadDay() ;
-  date.Month = ReadMonth() ;
-  date.Year = ReadYear() ;
+  date.Day() = ReadDay() ;
+  date.Month() = ReadMonth() ;
+  date.Year() = ReadYear() ;
 
   return date ;
 }
@@ -207,24 +207,24 @@ stDate ReadFullDate ()
 stDate DateAccordingToNumberOfPassedDays (short PassedDays  , short Year )
 { 
     stDate Date ;
-    Date.Year = Year;
-    Date.Month = 1 ;
+    Date.Year() = Year;
+    Date.Month() = 1 ;
 
     short ReamaindDays = PassedDays ;
     short MonthDays =0 ;
 
      while (true)
     {  
-        MonthDays = NumberOfDaysInMonth(Year , Date.Month );
+        MonthDays = NumberOfDaysInMonth(Year , Date.Month() );
 
         if (MonthDays < ReamaindDays )
         { 
-            ReamaindDays -= NumberOfDaysInMonth(Year , Date.Month ) ;
-            Date.Month++ ;
+            ReamaindDays -= NumberOfDaysInMonth(Year , Date.Month() ) ;
+            Date.Month()++ ;
         }
         else 
         {
-            Date.Day = ReamaindDays ;
+            Date.Day() = ReamaindDays ;
             break ;
         }
     }
@@ -233,28 +233,28 @@ stDate DateAccordingToNumberOfPassedDays (short PassedDays  , short Year )
 
 stDate DateAfterAddingDays (stDate Date , short daysAdded)
 {
-    short RemainingDays = daysAdded + NumberOfPassedDayFromYear(Date.Year , Date.Month , Date.Day) ;
-    Date.Month = 1 ;
+    short RemainingDays = daysAdded + NumberOfPassedDayFromYear(Date.Year() , Date.Month() , Date.Day()) ;
+    Date.Month() = 1 ;
     short MonthDay = 0 ;
 
     while ( true )
     {
-        MonthDay = NumberOfDaysInMonth(Date.Year , Date.Month);
+        MonthDay = NumberOfDaysInMonth(Date.Year() , Date.Month());
 
         if (RemainingDays > MonthDay )
         {
             RemainingDays -= MonthDay ;
-            Date.Month ++ ;
+            Date.Month() ++ ;
 
-            if (Date.Month > 12)
+            if (Date.Month() > 12)
             {
-                Date.Month = 1 ;
-                Date.Year ++ ;
+                Date.Month() = 1 ;
+                Date.Year() ++ ;
             }
         }
         else 
         {
-            Date.Day = RemainingDays ;
+            Date.Day() = RemainingDays ;
             break ;
         }
     }
@@ -266,27 +266,27 @@ bool IsDate1BeforDate2 (stDate date1 , stDate date2 )
 {
   
 
-    if (date1.Year < date2.Year)
+    if (date1.Year() < date2.Year())
     {
         return true ;
     }
-    else if (date1.Year > date2.Year)
+    else if (date1.Year() > date2.Year())
     {
         return false ;
     }
     else 
     {
-        if (date1.Month < date2.Month )
+        if (date1.Month() < date2.Month() )
         {
             return true ;
         }
-        else if (date1.Month > date2.Month)
+        else if (date1.Month() > date2.Month())
         {
             return false ;
         }
         else 
         {
-            if (date1.Day < date2.Day)
+            if (date1.Day() < date2.Day())
             {
                 return true ;
             }
@@ -299,30 +299,30 @@ bool IsDate1BeforDate2 (stDate date1 , stDate date2 )
     }
 
 
-//return (date1.Year < date2.Year) ? true : (date1.Year == date2.Year) ? (date1.Month < date2.Month ) ? true : (date1.Month == date2.Month) ? (date1.Day < date2.Day) : false  : false ;
+//return (date1.Year() < date2.Year()) ? true : (date1.Year() == date2.Year()) ? (date1.Month() < date2.Month() ) ? true : (date1.Month() == date2.Month()) ? (date1.Day() < date2.Day()) : false  : false ;
 
 
 }
 
 bool IsDate1EqalsDate2 (stDate date1 , stDate date2 )
 {
-    return ((date1.Year == date2.Year) && (date1.Month==date2.Month) && (date1.Day == date2.Day )) ? true : false ;
+    return ((date1.Year() == date2.Year()) && (date1.Month()==date2.Month()) && (date1.Day() == date2.Day() )) ? true : false ;
 }
 
 bool IsLastMonthInYear ( stDate date )
 {
-    return ( date.Month == 12 ) ;
+    return ( date.Month() == 12 ) ;
 }
 
 bool IsLastDayInMonth ( stDate date )
 {
-    return (NumberOfDaysInMonth(date.Year , date.Month ) == date.Day ) ;
+    return (NumberOfDaysInMonth(date.Year() , date.Month() ) == date.Day() ) ;
 }
 
 void PrintFullDate (stDate date )
 {
     cout << endl ;
-    cout << date.Day << " / " << date.Month << " / " << date.Year << endl;
+    cout << date.Day() << " / " << date.Month() << " / " << date.Year() << endl;
 
 }
 
@@ -330,20 +330,20 @@ stDate IncreaseDateByOneDay (stDate date )
 {
     if (IsLastMonthInYear(date) && IsLastDayInMonth(date))
     {
-        date.Year ++ ;
-        date.Month = 1 ;
-        date.Day = 1;
+        date.Year() ++ ;
+        date.Month() = 1 ;
+        date.Day() = 1;
        
     }
     else if (IsLastDayInMonth(date) && (!IsLastMonthInYear(date)) )
     {
-        date.Month ++ ;
-        date.Day = 1 ;
+        date.Month() ++ ;
+        date.Day() = 1 ;
         
     }
     else 
     {
-        date.Day ++ ;
+        date.Day() ++ ;
     }
 
     return date ;
@@ -356,9 +356,9 @@ stDate GetSystemDate ()
     time_t t = time(0) ;
     tm* now = localtime(&t) ;
 
-    date.Year = now->tm_year + 1900 ;
-    date.Month = now->tm_mon + 1 ;
-    date .Day = now->tm_mday ;
+    date.Year() = now->tm_year + 1900 ;
+    date.Month() = now->tm_mon + 1 ;
+    date .Day() = now->tm_mday ;
 
     return date ;
 }
@@ -420,19 +420,19 @@ stDate IncreseDateByXWeeks (stDate date , int NumberOfWeeks )
 
 stDate IncreaseDateByOneMonth (stDate date )
 {
- if (date.Month == 12 )
+ if (date.Month() == 12 )
   { 
-    date.Month = 1 ;
-    date.Year ++ ;
+    date.Month() = 1 ;
+    date.Year() ++ ;
   }
  else 
-    date.Month ++ ;
+    date.Month() ++ ;
 
-    short NumOfDaysInMonth =  NumberOfDaysInMonth(date.Year , date.Month);
+    short NumOfDaysInMonth =  NumberOfDaysInMonth(date.Year() , date.Month());
 
-    if (NumOfDaysInMonth < date.Day)
+    if (NumOfDaysInMonth < date.Day())
     {
-        date.Day = NumOfDaysInMonth ;
+        date.Day() = NumOfDaysInMonth ;
     }
 
     return date ;
@@ -450,7 +450,7 @@ stDate IncreaseDateByXMonths (stDate date , int NumberOfMonths )
 
 stDate IncreaseDateByOneYear (stDate date )
 {
-    date.Year++ ;
+    date.Year()++ ;
     return date ;
 }
 
@@ -465,13 +465,13 @@ stDate IncreaseDateByYears (stDate date , int NumberOfYears )
 
 stDate IncreaseDateByYearsFaster (stDate date , int NumberOfYears )
 {
-    date.Year += NumberOfYears ;
+    date.Year() += NumberOfYears ;
     return date ;
 }
 
 stDate IncreaseDateByOneDecade (stDate date )
 {
-    date.Year += 10 ;
+    date.Year() += 10 ;
     return date ;
 }
 
@@ -487,40 +487,40 @@ stDate IncreseDateByXDecades (stDate date , int NumOfDecades )
 stDate IncreaseDateByXDecadesFaster (stDate date , int NumOfDecades )
 {
 
-    date.Year += (10 * NumOfDecades ) ;
+    date.Year() += (10 * NumOfDecades ) ;
     return date ;
 }
 
 stDate IncreaseDateByOneCentury (stDate date)
 {
-    date.Year += 100 ;
+    date.Year() += 100 ;
     return date ;
 }
 
 stDate IncreaseDateByOneMillennium (stDate date )
 {
-    date.Year += 1000 ;
+    date.Year() += 1000 ;
     return date ;
 }
 
 stDate DecreaseDateByOneDay (stDate date )
 {
-    if (date.Day == 1 && date.Month == 1 )
+    if (date.Day() == 1 && date.Month() == 1 )
     {
-         date.Day = 31 ;
-         date.Year-- ;
-         date.Month = 12 ;
+         date.Day() = 31 ;
+         date.Year()-- ;
+         date.Month() = 12 ;
     }
-    else if (date.Day == 1 && date.Month != 1 )
+    else if (date.Day() == 1 && date.Month() != 1 )
     {
-        date.Month -- ;
-        short NumOfDaysInMonth = NumberOfDaysInMonth( date.Year , date.Month);
-        date.Day = NumOfDaysInMonth ;
+        date.Month() -- ;
+        short NumOfDaysInMonth = NumberOfDaysInMonth( date.Year() , date.Month());
+        date.Day() = NumOfDaysInMonth ;
       
     }
     else 
     {
-        date.Day -- ;
+        date.Day() -- ;
 
     }
 
@@ -556,19 +556,19 @@ stDate DecreaseDateByXWeeks (stDate date , short NumOfWeeks )
 
 stDate DecreaseDateByOneMonth (stDate date )
 {
-    if (date.Month == 1 )
+    if (date.Month() == 1 )
     {
-        date.Month = 12 ;
+        date.Month() = 12 ;
     }
     else 
     {
-        date.Month -- ;
+        date.Month() -- ;
     }
-    short NumOfDaysInMonth = NumberOfDaysInMonth(date.Year , date.Month );
+    short NumOfDaysInMonth = NumberOfDaysInMonth(date.Year() , date.Month() );
 
-    if (date.Day > NumOfDaysInMonth )
+    if (date.Day() > NumOfDaysInMonth )
     {
-        date.Day = NumOfDaysInMonth ;
+        date.Day() = NumOfDaysInMonth ;
     }
     return date ;
 }
@@ -584,19 +584,19 @@ stDate DecreaseDateByXMonths (stDate date , short NumOfMonths )
 
 stDate DecreaseDateByOneYear (stDate date )
 {
-    date.Year -- ;
+    date.Year() -- ;
     return date ;
 }
 
 stDate DecreaseDateByXYearsFaster (stDate date , short NumOfYears )
 {
-    date.Year -= NumOfYears ;
+    date.Year() -= NumOfYears ;
     return date ;
 }
 
 stDate DecreaseDateByOneDecade (stDate date )
 {
-    date.Year -= 10 ;
+    date.Year() -= 10 ;
     return date ;
 }
 
@@ -612,19 +612,19 @@ stDate DecreaseDateByXDecades (stDate date , int NumOfDecades )
 stDate DecreaseDateByXDecadesFaster (stDate date , int NumOfDecades )
 {
 
-    date.Year -= (10 * NumOfDecades ) ;
+    date.Year() -= (10 * NumOfDecades ) ;
     return date ;
 }
 
 stDate DecreaseDateByOneCentury (stDate date)
 {
-    date.Year -= 100 ;
+    date.Year() -= 100 ;
     return date ;
 }
 
 stDate DecreaseDateByOneMillennium (stDate date )
 {
-    date.Year -= 1000 ;
+    date.Year() -= 1000 ;
     return date ;
 }
 
@@ -654,13 +654,13 @@ short DaysUntillEndOfWeek (stDate date )
 short DaysUntillEndOfMonth (stDate date )
 {
     short lastDayInMonth = NumberOfDaysInMonth(date) ;
-    return lastDayInMonth - date.Day ;
+    return lastDayInMonth - date.Day() ;
 }
 
 short DaysUntillEndOfYear (stDate date )
 {
-    short NumOfDyasInYear = NumberOfDyasInYear (date.Year);
-    short NumOfPassedDays = NumberOfPassedDayFromYear(date.Year , date.Month , date.Day ) ;
+    short NumOfDyasInYear = NumberOfDyasInYear (date.Year());
+    short NumOfPassedDays = NumberOfPassedDayFromYear(date.Year() , date.Month() , date.Day() ) ;
     return NumOfDyasInYear - NumOfPassedDays ;
 }
 
@@ -819,15 +819,15 @@ bool ValidateDate (stDate date )
 {
 
 
-    if (date.Month < 1 || date.Month > 12 )
+    if (date.Month() < 1 || date.Month() > 12 )
     return false ;
 
-    if (date.Year < 1 )
+    if (date.Year() < 1 )
     return false ;
 
    short MaxDay = NumberOfDaysInMonth(date);
 
-    if (date.Day < 1 || date.Day > MaxDay )
+    if (date.Day() < 1 || date.Day() > MaxDay )
     return false ;
     else 
     return true ;
@@ -862,9 +862,9 @@ stDate StringToDate (string date , string delim = "/")
     stDate Date ;
     vector<string> vDate = SplitString(date , delim );
     
-    Date.Day = stoi (vDate[0]) ;
-    Date.Month = stoi (vDate[1]) ;
-    Date.Year = stoi (vDate[2]) ;
+    Date.Day() = stoi (vDate[0]) ;
+    Date.Month() = stoi (vDate[1]) ;
+    Date.Year() = stoi (vDate[2]) ;
 
     return Date ;
 }
@@ -872,7 +872,7 @@ stDate StringToDate (string date , string delim = "/")
 string DateToString (stDate date)
 {
 
-    return  to_string(date.Day) + " / " + to_string(date.Month) + " / " + to_string(date.Year) ;
+    return  to_string(date.Day()) + " / " + to_string(date.Month()) + " / " + to_string(date.Year()) ;
 
 }
 
@@ -899,9 +899,9 @@ string DateFormat (stDate date , string Format = "dd / mm / yyyy")
 {
     string FormatDay ;
     
-    FormatDay = ReplaceWordInStringUsingBuiltInFunction(Format , "dd" , to_string(date.Day));
-    FormatDay = ReplaceWordInStringUsingBuiltInFunction(FormatDay , "mm" , to_string(date.Month));
-    FormatDay = ReplaceWordInStringUsingBuiltInFunction(FormatDay , "yyyy" , to_string(date.Year)) ;
+    FormatDay = ReplaceWordInStringUsingBuiltInFunction(Format , "dd" , to_string(date.Day()));
+    FormatDay = ReplaceWordInStringUsingBuiltInFunction(FormatDay , "mm" , to_string(date.Month()));
+    FormatDay = ReplaceWordInStringUsingBuiltInFunction(FormatDay , "yyyy" , to_string(date.Year())) ;
 
     return FormatDay ;
 }
