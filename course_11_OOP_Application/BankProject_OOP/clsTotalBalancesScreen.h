@@ -22,6 +22,7 @@ static void PrintClientRecordBalanceLine(clsBankClient Client)
 
 
 public:
+
 static void ShowTotalBalancesScreen()
 {
         vector <clsBankClient> vClients = clsBankClient::GetClientsList();

@@ -5,6 +5,7 @@
 #include<iostream>
 #include<string>
 #include <vector>
+#include <ctime>
 #include "clsString.h"
 
 using namespace std;
@@ -1086,4 +1087,20 @@ public:
 	{
 		return CompareDates(*this, Date2);
 	}
+
+    static string GetSystemTimeString ()
+	{
+		time_t t = time(0) ;
+		tm *now = localtime(&t); 
+
+		short Hour , Minute , Secoud ;
+		Hour = now-> tm_hour ;
+		Minute = now-> tm_min ;
+		Secoud = now-> tm_sec ;
+
+		return to_string(Hour) + ":" + to_string(Minute) + ":" + to_string(Secoud);
+
+	}
+
+
 };

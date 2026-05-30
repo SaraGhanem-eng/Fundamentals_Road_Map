@@ -33,6 +33,12 @@ public :
 
 static void ShowDeleteClinetScreen ()
 {
+
+if (!CheckAccessRights(clsUser::enPermissions::PDeleteClient))
+{
+      return ;
+}
+
 clsScreen::_DrawScreenHeader("\tDelete Client Screen ");
 
  string AccountNumber = "" ;

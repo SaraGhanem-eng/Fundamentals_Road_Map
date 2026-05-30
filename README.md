@@ -2,7 +2,7 @@
 
 A clear roadmap for learning programming fundamentals.  
 
-- **Courses:** 5, 6, 7, 8 (more can be added).  
+- **Courses:** 5, 6, 7, 8 , 10 , 11 (more can be added).  
 - Each folder contains exercises and final projects 
 
 ## How to Use

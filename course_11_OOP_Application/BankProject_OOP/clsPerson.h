@@ -67,4 +67,19 @@ string FullName ()
 {
   return _FirstName + " " + _LastName ;
 }
+
+static void SendEmail (string Tilte , string Body)
+{
+
+}
+
+static void SendSMS(string Tilte , string Body)
+{
+
+}
+
+static void SendFax(string Tilte , string Body)
+{
+
+}
 };

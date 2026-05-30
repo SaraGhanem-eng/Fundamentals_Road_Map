@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include "Global.h"
 #include "clsPerson.h"
 #include "/Users/saraghanem/Documents/Road_map_projects/Libs/clsString.h"
 #include "/Users/saraghanem/Documents/Road_map_projects/Libs/clsUtil.h"
@@ -11,6 +12,8 @@ using namespace std ;
 
 class clsBankClient : public clsPerson 
 {
+public : struct stTransferLog ;
+
 private :
 
 
@@ -21,6 +24,22 @@ string _AccountNumber ;
 string _PinCode ;
 double _AccountBalance ;
 bool _MarkForDelete = false ;
+
+static stTransferLog _ConvertTransferLineToRecord (string Line , string Separator = "#//#")
+{
+    stTransferLog TransferRecord ;
+    vector <string> TransferLogDataLine = clsString::Split(Line , Separator);
+    
+    TransferRecord.DateTime = TransferLogDataLine[0];
+    TransferRecord.SenderAccountNumber = TransferLogDataLine[1] ;
+    TransferRecord.ReciverAccountNumber = TransferLogDataLine[2] ;
+    TransferRecord.Amount = stod(TransferLogDataLine[3]);
+    TransferRecord.SenderBalance = stod(TransferLogDataLine[4]);
+    TransferRecord.ReciverBalance = stod(TransferLogDataLine[5]);
+    TransferRecord.UserName = TransferLogDataLine[6];
+
+    return TransferRecord ;
+}
 
 static clsBankClient _GetEmptyClientObject ()
 {
@@ -157,6 +176,17 @@ bool IsEmpty ()
     return (_Mode == enMode::EmptyMode );
 }
 
+struct stTransferLog
+{
+  string DateTime ;
+  string SenderAccountNumber ;
+  string ReciverAccountNumber ;
+  double Amount ;
+  double SenderBalance ;
+  double ReciverBalance ;
+  string UserName ;
+
+};
 // Acc Number has read Only property .
 string AccountNumber ()
 {
@@ -339,6 +369,72 @@ bool Withdraw (double Amount )
     }
 }
 
+bool Transfer (double Amount , clsBankClient &DestinationCLient )
+{
+    if (Amount > AccountBalance())
+    {
+        return false ;
+    }
+    else 
+    {
+        Withdraw(Amount);
+        DestinationCLient.Deposit(Amount);
+        LoadTransferLog(Amount , DestinationCLient) ;
+        return true ;
+    }
+}
+
+string _GetTransferLine ( double Amount , clsBankClient DestinationClient , string delim = "#//#" )
+{
+  string Line = ""  ;
+  Line += clsDate::DateToString(clsDate::GetSystemDate()) + " - ";
+  Line += clsDate::GetSystemTimeString() + delim ;
+  Line += AccountNumber()+ delim ;
+  Line += DestinationClient.AccountNumber() + delim ;
+  Line += to_string(Amount) + delim ;
+  Line += to_string(AccountBalance())+ delim ;
+  Line += to_string(DestinationClient.AccountBalance())+ delim ;
+  Line += CurrentUser.UserName() ;
+  return Line ;
+}
+
+void LoadTransferLog (double Amount , clsBankClient DestinationClient )
+{
+  fstream MyFile ;
+  MyFile.open("TransferLog.txt" , ios::out | ios::app );
+
+  if (MyFile.is_open())
+  {
+    MyFile << _GetTransferLine(Amount ,DestinationClient ) << endl ;
+    MyFile.close();
+
+  }
+
+}
+
+static vector <stTransferLog> GetTransferLogList ()
+{
+    vector <stTransferLog> vTransferLog ;
+
+    fstream MyFile ;
+    MyFile.open("TransferLog.txt" , ios::in );
+
+
+    if( MyFile.is_open())
+    {
+        string Line ;
+        stTransferLog TransferLogRecord ;
+
+        while (getline(MyFile , Line ))
+        {
+           TransferLogRecord = _ConvertTransferLineToRecord(Line);
+           vTransferLog.push_back(TransferLogRecord);
+        }
+        MyFile.close();
+    }
+    return vTransferLog ;
+
+}
 
 
 };

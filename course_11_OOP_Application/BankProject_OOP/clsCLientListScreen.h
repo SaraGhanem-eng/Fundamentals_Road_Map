@@ -25,6 +25,12 @@ static void PrintClientRecordLine (clsBankClient Client )
 public :
 static void ShowClientsList ()
 {
+
+    if (!CheckAccessRights(clsUser::enPermissions::PClientList))
+    {
+      return ;
+    }
+
     vector <clsBankClient> _vClients =clsBankClient::GetClientsList();
     string Title = "\t  Clients List Screen" ;
     string SubTitle = "\t    (" + to_string(_vClients.size()) + " Client (s).";

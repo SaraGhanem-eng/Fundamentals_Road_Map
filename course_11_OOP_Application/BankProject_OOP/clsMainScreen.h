@@ -9,6 +9,10 @@
 #include "clsUpdateClientScreen.h"
 #include "clsFindClientScreen.h"
 #include "clsTransactionsScreen.h"
+#include "clsManageUsersMenu.h"
+#include "clsLoginRegisterScreen.h"
+#include "clsCurrencyExchangeScreen.h"
+#include "Global.h"
 #include "/Users/saraghanem/Documents/Road_map_projects/Libs/clsInputValidation.h"
 #include "/Users/saraghanem/Documents/Road_map_projects/Libs/clsUtil.h"
 
@@ -19,17 +23,17 @@ class clsMainScreen : protected clsScreen
     private :
 
     enum enMainMenuOptions {eListClients = 1 , eAddNewClient = 2 , eDeleteClient = 3 , eUpdateClient = 4 
-        , eFindClient = 5 , eShowTransactionsMenu = 6 , eManageUsers = 7 , eExit = 8 } ;
+        , eFindClient = 5 , eShowTransactionsMenu = 6 , eManageUsers = 7 
+        ,eLoginRegister = 8 , eCurrencyExchange = 9 , eExit = 10 } ;
     
     static short _ReadMainMenuOption ()
     {
         short Choice = 1 ;
-        cout << setw(37) << left << "" << "Choose what do you want to do ? [1 to 8 ]" ;
+        cout << setw(37) << left << "" << "Choose what do you want to do ? [1 to 10 ]" ;
         cin >> Choice ;
-        while (Choice < 1 || Choice > 8 )
+        while (Choice < 1 || Choice > 10 )
         {
-            cout <<  "Enter Number between 1 to 8 ? \n";
-            Choice = clsInputValidate::ReadIntNumberBetween(1 , 8 , "Enter Number between 1 to 8 ? \n" );
+            Choice = clsInputValidate::ReadIntNumberBetween(1 , 10 , "Enter Number between 1 to 10 ? \n" );
         }
         return Choice ;
 
@@ -37,7 +41,7 @@ class clsMainScreen : protected clsScreen
  
     static void _GoBackToMainMenu ()
     {
-        cout << setw(37) << left << "" << "\n\tPress [ Enter ] to Main Menue ... \n" ;
+        cout <<  "\nPress [ Enter ] to Main Menue ... \n" ;
         cin.ignore(numeric_limits<streamsize> :: max(), '\n') ;
         cin.get() ;
         
@@ -81,13 +85,22 @@ class clsMainScreen : protected clsScreen
 
     static void _ShowManageUsersMenue()
     {
-        cout << "\nUsers Menue Will be here...\n";
-
+        clsManageUsersMenu::ShowManageUsersMenu();
     }
 
-    static void _ShowEndScreen()
+    static void _ShowLoginRegisterScreen ()
     {
-       cout << "\nEnd Screen Will be here...\n";
+      clsLoginRegisterScreen::ShowLoginRegisterScreen();
+    }
+   
+    static void _ShowCurrencyExchangeScreen()
+    {
+      clsCurrencyExchangeScreen::ShowCurrencyExchangeScreen();
+    }
+
+    static void _Logout()
+    {
+       CurrentUser = clsUser::Find("" , "");
 
     }
 
@@ -150,14 +163,26 @@ class clsMainScreen : protected clsScreen
         _GoBackToMainMenu();
         break;
      }
+    case enMainMenuOptions::eLoginRegister:
+    {
+        clsUtil::ResetScreen();
+        _ShowLoginRegisterScreen();
+        _GoBackToMainMenu();
+        break;
+    }
 
+    case enMainMenuOptions::eCurrencyExchange:
+    {
+        clsUtil::ResetScreen();
+        _ShowCurrencyExchangeScreen();
+        _GoBackToMainMenu();
+        break;
+    }
      case enMainMenuOptions::eExit:
     {
         clsUtil::ResetScreen();
-        _ShowEndScreen();
-                //Login();
-
-                break;
+        _Logout();
+        break;
     }
     }
 
@@ -172,16 +197,18 @@ class clsMainScreen : protected clsScreen
             _DrawScreenHeader("\t\tMain Screen" );
 
             cout << setw(37) << left << ""  << "===========================================\n";
-            cout << setw(37) << left << "" << "\t\t\tMain Menue\n";
+            cout << setw(37) << left << "" << "\t\t\tMain Menu\n";
             cout << setw(37) << left << "" << "===========================================\n";
-            cout << setw(37) << left << "" << "\t[1] Show Client List.\n";
-            cout << setw(37) << left << "" << "\t[2] Add New Client.\n";
-            cout << setw(37) << left << "" << "\t[3] Delete Client.\n";
-            cout << setw(37) << left << "" << "\t[4] Update Client Info.\n";
-            cout << setw(37) << left << "" << "\t[5] Find Client.\n";
-            cout << setw(37) << left << "" << "\t[6] Transactions.\n";
-            cout << setw(37) << left << "" << "\t[7] Manage Users.\n";
-            cout << setw(37) << left << "" << "\t[8] Logout.\n";
+            cout << setw(37) << left << "" << "\t[1]  Show Client List.\n";
+            cout << setw(37) << left << "" << "\t[2]  Add New Client.\n";
+            cout << setw(37) << left << "" << "\t[3]  Delete Client.\n";
+            cout << setw(37) << left << "" << "\t[4]  Update Client Info.\n";
+            cout << setw(37) << left << "" << "\t[5]  Find Client.\n";
+            cout << setw(37) << left << "" << "\t[6]  Transactions.\n";
+            cout << setw(37) << left << "" << "\t[7]  Manage Users.\n";
+            cout << setw(37) << left << "" << "\t[8]  Login Register.\n";
+            cout << setw(37) << left << "" << "\t[9]  Currency Exchange.\n";
+            cout << setw(37) << left << "" << "\t[10] Logout.\n";
             cout << setw(37) << left << "" << "===========================================\n";
             _PerformMainMenuOption( (enMainMenuOptions)_ReadMainMenuOption()) ;
 

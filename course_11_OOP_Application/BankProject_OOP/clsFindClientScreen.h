@@ -32,6 +32,11 @@ public :
 
    static void ShowFindCLientScreen ()
    {
+
+    if (!CheckAccessRights(clsUser::enPermissions::PFindClient))
+    {
+      return ;
+    }
     clsScreen::_DrawScreenHeader("\t  Find Client Screen");
 
     cout << "Please enter Account Number ? " ;

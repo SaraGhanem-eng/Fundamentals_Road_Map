@@ -43,6 +43,15 @@ public:
 			return false;
 	}
 
+    template <typename T > 
+	static bool IsNumberBetween (T Number , T From , T To)
+	{
+		if (Number >= From && Number <= To)
+			return true;
+		else
+			return false; 
+	}
+
 	static bool IsDateBetween(clsDate Date, clsDate From, clsDate To)
 	{
 		//Date>=From && Date<=To
@@ -88,6 +97,30 @@ public:
 		return Number;
 	}
 
+	static double ReadDblNumber(string ErrorMessage = "Invalid Number, Enter again\n")
+	{
+		double Number;
+		while (!(cin >> Number)) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cout << ErrorMessage;
+		}
+		return Number;
+	}
+
+	template <typename T > 
+	static T ReadNumber (string ErrorMessage = "Invalid Number, Enter again\n" )
+	{
+		T Number ;
+		while (!(cin >> Number))
+		{
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cout << ErrorMessage;
+		}
+		return Number;
+	}
+
 	static short ReadShortNumberBetween(short From, short To, string ErrorMessage = "Number is not within range, Enter again:\n")
 	{
 		short Number = ReadShortNumber();
@@ -100,25 +133,14 @@ public:
 		return Number;
 	}
 
-	static int ReadIntNumberBetween(int From, int To, string ErrorMessage="Number is not within range, Enter again:\n")
+	static int ReadIntNumberBetween(int From, int To, string ErrorMessage= "Number is not within range, Enter again:\n")
 	{
-		int Number=ReadIntNumber();
+		int Number=0;
 
 		while (!IsNumberBetween(Number,From,To)) 
 		{
 			cout << ErrorMessage;
 			Number = ReadIntNumber();
-		}
-		return Number;
-	}
-
-	static double ReadDblNumber(string ErrorMessage = "Invalid Number, Enter again\n")
-	{
-		double Number;
-		while (!(cin >> Number)) {
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cout << ErrorMessage;
 		}
 		return Number;
 	}
@@ -133,6 +155,20 @@ public:
 		}
 		return Number;
 	}
+
+    template <typename T > 
+	static T ReadNumberBetween (T From , T To , string ErrorMessage = "Number is not within range, Enter again:\n" )
+    {
+      T Number = ReadNumber<T>();
+
+	    while (!IsNumberBetween(Number, From, To)) 
+	    {
+			cout << ErrorMessage;
+			Number = ReadNumber<T>();
+		}
+		return Number ;
+
+	} 
 
 	static bool IsValideDate(clsDate Date)
 	{
