@@ -222,7 +222,7 @@ void InsertAtBeginning (T value )
 
 void InsertAtEnd(T value )
 {
-  InsertAt(_Size , value )
+  InsertAt(_Size , value );
 }
 
 bool InsertBefor (int index , T value )
