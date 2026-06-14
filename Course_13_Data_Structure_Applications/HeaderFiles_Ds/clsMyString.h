@@ -7,7 +7,7 @@ using namespace std ;
 
 class clsMyString
 {
-protected :
+private :
 
 string _value ;
 clsMyStack <string> _OriginalStack ;
@@ -32,7 +32,6 @@ if (!_OriginalStack.IsEmpty())
 {
   _HistoryStack.push(_OriginalStack.Top()) ;   
   _OriginalStack.pop();
-  
   if (!_OriginalStack.IsEmpty())
   {
     _value = _OriginalStack.Top();
